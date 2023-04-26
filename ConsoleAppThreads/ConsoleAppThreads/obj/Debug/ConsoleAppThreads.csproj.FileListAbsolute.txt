@@ -1,0 +1,8 @@
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\bin\Debug\ConsoleAppThreads.exe.config
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\bin\Debug\ConsoleAppThreads.exe
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\bin\Debug\ConsoleAppThreads.pdb
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.AssemblyReference.cache
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.SuggestedBindingRedirects.cache
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.CoreCompileInputs.cache
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.exe
+C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.pdb
