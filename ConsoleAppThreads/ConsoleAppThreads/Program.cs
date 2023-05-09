@@ -68,16 +68,45 @@ namespace ConsoleAppThreads
 
             GenerateMatrices();
             Test test = new Test();
-
-
-
-
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            Thread[] threads = new Thread[a_row];
+            for (i = 0; i < a_row; i++)
+            {
+                var temp = i;
+                threads[i] = new Thread(() => test.matrix_multiplication(Matrix_a, Matrix_b, a_row, a_column, b_column, i));
+            }
+            for (i = 0; i < a_row; i++)
+            {
+                threads[i].Start();
+            }
+            for (i = 0; i < a_row; i++)
+                threads[i].Join();
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine(elapsedMs + " ms");
             Console.Read();
 
         }
         public class Test
         {
+            public void matrix_multiplication(int[,] Matrix_A, int[,] Matrix_B, int a_row, int a_column, int b_column, int j)
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine();
+                int[] Matrix_c = new int[b_column];
 
+                for (int i = 0; i < b_column; i++)
+                {
+                    Matrix_c[i] = 0;
+                    for (int k = 0; k < a_column; k++)
+                    {
+                        Matrix_c[i] += Matrix_A[j, k] * Matrix_B[k, i];
+                    }
+
+                }
+                
+
+            }
         }
     }
 }
