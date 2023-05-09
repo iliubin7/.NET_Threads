@@ -13,13 +13,27 @@ namespace ConsoleAppThreads
 
         static void Main(string[] args)
         {
-            Thread thread = new Thread(Hello);
-            thread.Start();
+            int n = 10;
+            Thread[] threads = new Thread[n];
+            for (int i = 0; i < n; i++)
+            {
+                threads[i] = new Thread(Hello);
+                threads[i].Name = String.Format("Thread: {0}", i);
+            }
+            foreach (Thread x in threads)
+            {
+                x.Start();
+                if (x == threads[7])
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+            Console.WriteLine("Before thread or after?");
             Console.Read();
         }
         static void Hello()
          {
-          Console.WriteLine("Hello");
+          Console.WriteLine("Hello " + Thread.CurrentThread.Name + " !");
          }
         
     }
