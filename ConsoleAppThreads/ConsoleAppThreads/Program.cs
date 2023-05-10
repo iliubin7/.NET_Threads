@@ -38,9 +38,9 @@ namespace ConsoleAppThreads
                 Matrix_b = new int[b_row, b_column];
                 Matrix_c = new int[a_row, b_column];
 
-                for(i = 0; i < a_row; i++) 
+                for (i = 0; i < a_row; i++)
                 {
-                    for(j=0; j < a_column; j++)
+                    for (j = 0; j < a_column; j++)
                     {
                         Matrix_a[i, j] = j + 1 + i;           // Kazdy element macierzy wynosi: numer kolumny elementu + 1 + numer wierszu, w ktorym znajduje sie element,
                     }                                         // przy czym numerowanie kolumn i wierszy zaczyna sie od 0!!!
@@ -66,11 +66,11 @@ namespace ConsoleAppThreads
 
         static void PrintMatrix(int[,] matrix)
         {
-            for(i = 0; i < matrix.GetLength(0); i++)
+            for (i = 0; i < matrix.GetLength(0); i++)
             {
-                for(j = 0; j < matrix.GetLength(1); j++)
+                for (j = 0; j < matrix.GetLength(1); j++)
                 {
-                        Console.Write(matrix[i, j] + "\t");
+                    Console.Write(matrix[i, j] + "\t");
                 }
                 Console.WriteLine();
             }
@@ -90,7 +90,7 @@ namespace ConsoleAppThreads
             //{
             //    test.matrix_multiplication(i);
             //}
-            test.matrix_multiplication(0,a_row);                                                  //druga metoda 
+            test.matrix_multiplication(0, a_row);                                                  //druga metoda 
             watch1.Stop();
             var elapsedMs1 = watch1.ElapsedMilliseconds;
 
@@ -104,7 +104,8 @@ namespace ConsoleAppThreads
             for (i = 0; i < threads.Length; i++)                                                  //druga metoda
             //for (i = 0; i < a_row; i++)
             {
-                threads[i] = new Thread(() => test.matrix_multiplication(start,start+size));      //druga metoda
+                int tmp = start;
+                threads[i] = new Thread(() => test.matrix_multiplication(tmp, tmp + size));      //druga metoda
                 //threads[i] = new Thread(() => test.matrix_multiplication(i));
                 threads[i].Start();
                 start += size;
@@ -114,8 +115,8 @@ namespace ConsoleAppThreads
             //    threads[i].Start();
             for (i = 0; i < threads.Length; i++)      //druga metoda
                 threads[i].Join();
-            //for (i = 0; i < a_row; i++)
-            //    threads[i].Join();
+           // for (i = 0; i < a_row; i++)
+           //     threads[i].Join();
             watch2.Stop();
             var elapsedMs2 = watch2.ElapsedMilliseconds;
 
@@ -129,23 +130,19 @@ namespace ConsoleAppThreads
         }
         public class Test
         {
-            // UWAGI DO ZADANIA !!!
-            // OBIE METODY DZIALAJA !!, ale proponuje pokazac metode numer 2, aby nie tworzyc 1000 watkow dla macierzy o 1000 wierszach, gdyz nie przyspiesza to znacznie programu
-            // Dla małych macierzy wątki są bez sensu i szybciej wykonuje się operacje sekwencyjnie
-            // Powinniśmy pokazać działąnie dla 500, 1000 wątków bez wyświetlania macierzy, gdyz by to przedłużało
 
             //Metoda 1 -> każdy wątek liczy swój wiersz, dla dużych macierzy jest nieefektywna, gdyż system potrzebuje wiecej czasu na zarzadzanie wątkami,komkurencja wątków o zasoby
-            public void matrix_multiplication(int j)  
-               {
-                   for (int i = 0; i < b_column; i++)
-                   {
-                       Matrix_c[j,i] = 0;
-                       for (int k = 0; k < a_column; k++)
-                       {
-                           Matrix_c[j,i] += Matrix_a[j, k] * Matrix_b[k, i];
-                       }
-                   }
-               } 
+            public void matrix_multiplication(int j)
+            {
+                for (int i = 0; i < b_column; i++)
+                {
+                    Matrix_c[j, i] = 0;
+                    for (int k = 0; k < a_column; k++)
+                    {
+                        Matrix_c[j, i] += Matrix_a[j, k] * Matrix_b[k, i];
+                    }
+                }
+            }
 
             public void matrix_multiplication(int start_row, int end_row)  //Metoda 2 -> Wątki dzielą się po równo wierszami w tym przypadku będą tylko 4 wątki
             {
@@ -160,7 +157,7 @@ namespace ConsoleAppThreads
                         }
                     }
                 }
-            } 
+            }
         }
     }
 }
