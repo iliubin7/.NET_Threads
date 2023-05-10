@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,7 +11,7 @@ namespace ConsoleAppThreads
     internal class Program
     {
         static int a_row, a_column, b_row, b_column, i, j;
-        static int[,] Matrix_a, Matrix_b;
+        static int[,] Matrix_a, Matrix_b, Matrix_c;
 
         static void GenerateMatrices()
         {
@@ -35,31 +36,45 @@ namespace ConsoleAppThreads
             {
                 Matrix_a = new int[a_row, a_column];
                 Matrix_b = new int[b_row, b_column];
+                Matrix_c = new int[a_row, b_column];
 
                 for(i = 0; i < a_row; i++) 
                 {
-                    Console.WriteLine("\n");
                     for(j=0; j < a_column; j++)
                     {
                         Matrix_a[i, j] = j + 1 + i;           // Kazdy element macierzy wynosi: numer kolumny elementu + 1 + numer wierszu, w ktorym znajduje sie element,
-                        Console.Write(Matrix_a[i, j] + "\t"); // przy czym numerowanie kolumn i wierszy zaczyna sie od 0!!!
-                    }
+                    }                                         // przy czym numerowanie kolumn i wierszy zaczyna sie od 0!!!
                 }
 
-                Console.WriteLine("\n");
+                Console.WriteLine();
+                //Console.WriteLine("Macierz A:\n");          //Wyświetlanie macierzy działa, lecz dla dużych macierzy trwało by to zbyt długo 
+                //PrintMatrix(Matrix_a);
 
                 for (i = 0; i < b_row; i++)
                 {
-                    Console.WriteLine("\n");
                     for (j = 0; j < b_column; j++)
                     {
                         Matrix_b[i, j] = j + 1 + i;           // Kazdy element macierzy wynosi: numer kolumny elementu + 1 + numer wierszu, w ktorym znajduje sie element,
-                        Console.Write(Matrix_b[i, j] + "\t"); // przy czym numerowanie kolumn i wierszy zaczyna sie od 0!!!
-                    }
+                    }                                         // przy czym numerowanie kolumn i wierszy zaczyna sie od 0!!!
                 }
 
+                //Console.WriteLine("Macierz B:\n");          //Wyświetlanie macierzy działa, lecz dla dużych macierzy trwało by to zbyt długo
+                //PrintMatrix(Matrix_b);
 
             }
+        }
+
+        static void PrintMatrix(int[,] matrix)
+        {
+            for(i = 0; i < matrix.GetLength(0); i++)
+            {
+                for(j = 0; j < matrix.GetLength(1); j++)
+                {
+                        Console.Write(matrix[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
 
 
@@ -68,45 +83,84 @@ namespace ConsoleAppThreads
 
             GenerateMatrices();
             Test test = new Test();
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            Thread[] threads = new Thread[a_row];
-            for (i = 0; i < a_row; i++)
+
+            //---------------------------------------------------------------Pomiar mnożenia macierzy bez wątków------------------------------------------------------------
+            var watch1 = System.Diagnostics.Stopwatch.StartNew();
+            //for(i =0; i < a_row; i++)
+            //{
+            //    test.matrix_multiplication(i);
+            //}
+            test.matrix_multiplication(0,a_row);                                                  //druga metoda 
+            watch1.Stop();
+            var elapsedMs1 = watch1.ElapsedMilliseconds;
+
+
+            //---------------------------------------------------------------Pomiar mnożenia macierzy z wątkami--------------------------------------------------------------
+            //Thread[] threads = new Thread[a_row];
+            Thread[] threads = new Thread[4];                                                     //druga metoda
+            int start = 0;                                                                        //druga metoda
+            int size = a_row / threads.Length;                                                    //druga metoda                                              
+
+            for (i = 0; i < threads.Length; i++)                                                  //druga metoda
+            //for (i = 0; i < a_row; i++)
             {
-                var temp = i;
-                threads[i] = new Thread(() => test.matrix_multiplication(Matrix_a, Matrix_b, a_row, a_column, b_column, i));
-            }
-            for (i = 0; i < a_row; i++)
-            {
+                threads[i] = new Thread(() => test.matrix_multiplication(start,start+size));      //druga metoda
+                //threads[i] = new Thread(() => test.matrix_multiplication(i));
                 threads[i].Start();
+                start += size;
             }
-            for (i = 0; i < a_row; i++)
+            var watch2 = System.Diagnostics.Stopwatch.StartNew();
+            //for (i = 0; i < a_row; i++)
+            //    threads[i].Start();
+            for (i = 0; i < threads.Length; i++)      //druga metoda
                 threads[i].Join();
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine(elapsedMs + " ms");
+            //for (i = 0; i < a_row; i++)
+            //    threads[i].Join();
+            watch2.Stop();
+            var elapsedMs2 = watch2.ElapsedMilliseconds;
+
+            //Console.WriteLine("Macierz wynikowa C:\n");                                       //Wyświetlanie macierzy działa, lecz dla dużych macierzy trwało by to zbyt długo
+            //PrintMatrix(Matrix_c);
+            Console.WriteLine("Czas operacji bez użycia wątków: " + elapsedMs1 + " ms");
+            Console.WriteLine("czas operacji z użyciem wątków: " + elapsedMs2 + " ms");
+            Console.WriteLine("Operacja wykonana z pomocą wątków wykonała się około {0} razy szybciej", (elapsedMs1 / elapsedMs2));                         //Brak zaokrąglenia 
             Console.Read();
 
         }
         public class Test
         {
-            public void matrix_multiplication(int[,] Matrix_A, int[,] Matrix_B, int a_row, int a_column, int b_column, int j)
+            // UWAGI DO ZADANIA !!!
+            // OBIE METODY DZIALAJA !!, ale proponuje pokazac metode numer 2, aby nie tworzyc 1000 watkow dla macierzy o 1000 wierszach, gdyz nie przyspiesza to znacznie programu
+            // Dla małych macierzy wątki są bez sensu i szybciej wykonuje się operacje sekwencyjnie
+            // Powinniśmy pokazać działąnie dla 500, 1000 wątków bez wyświetlania macierzy, gdyz by to przedłużało
+
+            //Metoda 1 -> każdy wątek liczy swój wiersz, dla dużych macierzy jest nieefektywna, gdyż system potrzebuje wiecej czasu na zarzadzanie wątkami,komkurencja wątków o zasoby
+            public void matrix_multiplication(int j)  
+               {
+                   for (int i = 0; i < b_column; i++)
+                   {
+                       Matrix_c[j,i] = 0;
+                       for (int k = 0; k < a_column; k++)
+                       {
+                           Matrix_c[j,i] += Matrix_a[j, k] * Matrix_b[k, i];
+                       }
+                   }
+               } 
+
+            public void matrix_multiplication(int start_row, int end_row)  //Metoda 2 -> Wątki dzielą się po równo wierszami w tym przypadku będą tylko 4 wątki
             {
-                Thread.Sleep(1000);
-                Console.WriteLine();
-                int[] Matrix_c = new int[b_column];
-
-                for (int i = 0; i < b_column; i++)
+                for (int j = start_row; j < end_row; j++)
                 {
-                    Matrix_c[i] = 0;
-                    for (int k = 0; k < a_column; k++)
+                    for (int i = 0; i < b_column; i++)
                     {
-                        Matrix_c[i] += Matrix_A[j, k] * Matrix_B[k, i];
+                        Matrix_c[j, i] = 0;
+                        for (int k = 0; k < a_column; k++)
+                        {
+                            Matrix_c[j, i] += Matrix_a[j, k] * Matrix_b[k, i];
+                        }
                     }
-
                 }
-                
-
-            }
+            } 
         }
     }
 }

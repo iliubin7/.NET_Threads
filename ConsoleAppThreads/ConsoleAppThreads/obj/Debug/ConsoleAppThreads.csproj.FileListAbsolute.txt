@@ -14,3 +14,11 @@ C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ThirdProject\.NET_Threads
 C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ThirdProject\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.CoreCompileInputs.cache
 C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ThirdProject\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.exe
 C:\Users\elias\учёба AiR\semestr 6\TI .NET i Java\ThirdProject\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.pdb
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\bin\Debug\ConsoleAppThreads.exe.config
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\bin\Debug\ConsoleAppThreads.exe
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\bin\Debug\ConsoleAppThreads.pdb
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.AssemblyReference.cache
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.SuggestedBindingRedirects.cache
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.csproj.CoreCompileInputs.cache
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.exe
+C:\Users\kacpe\Source\Repos\.NET_Threads\ConsoleAppThreads\ConsoleAppThreads\obj\Debug\ConsoleAppThreads.pdb
